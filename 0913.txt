@@ -1,0 +1,107 @@
+0913
+
+언리얼 오브젝트 리플렉션 시스템
+
+  언리얼 오브젝트 특징, 리플렉션 시스템 / 처리방식
+
+리플렉션 == UPROPERTY
+
+#include generated.h(이거 제일 아래)
+
+매크로 이용 >> 리플렉션 시스템 소스 코드 생성
+
+리플렉션 되지 않은 UObject 포인터 저장시 가비지 콜렉터가 레퍼런스 확인 불가
+
+자동으로 메모리 관리가 되지 않음
+
+UField
+
+    UStruct
+
+    UClass
+
+GetClass() >> UObject 속성 조회(기존 cpp x)
+
+UObject
+
+    UPROPERTY 관리되는 클래스 멤버 변수
+
+    UFUNCTION 관리되는 클래스 멤버 함수
+
+    메타데이터
+
+    클래스 >> 컴파일/런타임 조회
+
+    UObject >> UClass >> CDO
+
+레퍼런스 자동 업데이트
+
+    자동 메모리 관리
+
+Serialization
+
+가비지 컬렉션
+
+    사용하지 않는 오브젝트 처리
+
+:: 네임 스페이스? 접근
+
+
+
+virtual void Init() override;
+
+    virtual
+
+    정적 바인딩 :   컴파일러 >> 함수 호출 시 메모리 고정
+                    포인터 주소 변경 시 유지
+
+    동적 바인딩 :   포인터가 가리키는 객체에 따라 함수 선택
+
+
+    override 재정의 명시
+
+포인터
+
+    주소 저장 변수
+
+    변수
+
+        int* x
+
+        *x,x[0]
+
+    함수
+
+        반환값&매개변수 X : void (*fp)();
+
+        반환값&매개변수 O : int (*fp)(int, int);
+
+        포인터 배열 : int (*fp[4])(int, int);
+
+        fp(a,b)
+
+    객체
+
+        Parent* Parent
+
+        p->print(), (*p).print()
+
+런타임 다형성 >> UClass* ClassRuntime = GetClass();
+컴파일타임 고정 >> UClass* ClassCompile = UMyGameInstance::StaticClass();
+
+블루프린트 노드 정리
+
+    Sequence
+
+        ![sequence node](./img/)
+
+        숫자 순서대로 순차적으로 실행
+
+    cast to actor
+
+        오브젝트 인스턴스 변환
+
+    cast to actor class 
+
+        액터 클래스 타입 변환
+
